@@ -61,13 +61,13 @@ class Ui:
         inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw", justify = "left")
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_file_window, app, inputInfoLabel))
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_file_window, inputInfoLabel))
         inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw")
+        outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw", justify = "left")
         outputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor)
+        outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_folder_window, outputInfoLabel))
         outputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
         infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor)
@@ -80,7 +80,7 @@ class Ui:
         dataScrollFrame.grid(sticky = "NSWE")
 
 
-    def open_select_file_window(self, text, label):
+    def open_select_file_window(self, label):
         selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
 
         if selectedFile == "":
@@ -90,6 +90,16 @@ class Ui:
             label.configure(text = "Ścieżka do pliku:\n{}".format(selectedFile))
         else:
             self.infoWindow.open_window("Niepoprawny format pliku")
+
+    def open_select_folder_window(self, label):
+        selectedFolder = filedialog.askdirectory()
+
+        if selectedFolder == "":
+            pass
+        else:
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(selectedFolder))
+            
+
 
 
 
