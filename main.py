@@ -1,6 +1,8 @@
 from tkinter import Tk
 import customtkinter
 from ui.ui import Ui
+from logic.getData import GetData
+
 
 class MainWindow:
     def __init__(self):
@@ -9,7 +11,8 @@ class MainWindow:
         self.root.mainloop()
 
     def import_classes(self):
-        self.ui = Ui(self.root)
+        self.getData = GetData()
+        self.ui = Ui(self.root, self.getData)
 
     def create_window(self):
         self.root = customtkinter.CTk()
