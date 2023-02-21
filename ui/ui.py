@@ -58,10 +58,10 @@ class Ui:
 
 
 #---------------add widgets----------------------------------------------
-        inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw")
+        inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw", justify = "left")
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_file_window, app))
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_file_window, app, inputInfoLabel))
         inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
         outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw")
@@ -80,13 +80,14 @@ class Ui:
         dataScrollFrame.grid(sticky = "NSWE")
 
 
-    def open_select_file_window(self, text):
+    def open_select_file_window(self, text, label):
         selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
 
         if selectedFile == "":
             pass
         elif selectedFile.endswith(".xml"):
             print("accept")
+            label.configure(text = "Ścieżka do pliku:\n{}".format(selectedFile))
         else:
             self.infoWindow.open_window("Niepoprawny format pliku")
 
