@@ -15,6 +15,7 @@ class MainWindow:
         self.root = customtkinter.CTk()
         self.root.title("Konwerter XML")
         self.root.geometry("1280x720")
+        self.root.minsize(750, 300)
 
 if __name__ == "__main__":
     MainWindow()
