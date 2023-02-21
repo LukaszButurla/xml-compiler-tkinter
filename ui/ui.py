@@ -1,12 +1,16 @@
 import customtkinter
+from tkinter import filedialog
+from functools import partial
+from ui.infoWindow import InfoWindow
 
 class Ui:
     def __init__(self, app, getData):
-        self.getData = getData
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
         thirdColor = "#ECE8DD"
         fourthColor = "#E1D7C6"
+        self.infoWindow = InfoWindow(app, mainColor, secondColor)
+        self.getData = getData
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
     def create_widgets(self, app, color, secondColor, thirdColor, fourthColor):
@@ -57,7 +61,7 @@ class Ui:
         inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw")
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=self.getData.select_file)
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_file_window, app))
         inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
         outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw")
@@ -74,6 +78,17 @@ class Ui:
 
         dataScrollFrame = customtkinter.CTkScrollableFrame(tableFrame, fg_color=thirdColor)
         dataScrollFrame.grid(sticky = "NSWE")
+
+
+    def open_select_file_window(self, text):
+        selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
+
+        if selectedFile == "":
+            pass
+        elif selectedFile.endswith(".xml"):
+            print("accept")
+        else:
+            self.infoWindow.open_window("Niepoprawny format pliku")
 
 
 

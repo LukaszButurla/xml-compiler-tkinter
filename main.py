@@ -3,6 +3,7 @@ import customtkinter
 from ui.ui import Ui
 from logic.getData import GetData
 
+
 class MainWindow:
     def __init__(self):
         self.create_window()
