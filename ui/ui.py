@@ -8,13 +8,13 @@ class Ui:
 
     def create_widgets(self, app, color, secondColor):
 #--------------create grid frames-------------------------------------
-        inputFrame = customtkinter.CTkFrame(app, width=640, height=90, fg_color=color)
+        inputFrame = customtkinter.CTkFrame(app, width=640, height=90, fg_color=color, border_color="#ECE8DD", border_width=2)
         inputFrame.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE")
 
-        outputFrame = customtkinter.CTkFrame(app, width=640, height=90, fg_color=color)
+        outputFrame = customtkinter.CTkFrame(app, width=640, height=90, fg_color=color, border_color="#ECE8DD", border_width=2)
         outputFrame.grid(row = 0, column = 3, columnspan = 3, sticky = "NSWE")
 
-        tableFrame = customtkinter.CTkFrame(app, width=1280, height=540, fg_color="green")
+        tableFrame = customtkinter.CTkFrame(app, width=1280, height=540, fg_color=color, border_color="#ECE8DD", border_width=2)
         tableFrame.grid(row = 1, column = 0, columnspan = 6, rowspan = 6, sticky = "NSWE")
 
         infoFrame = customtkinter.CTkFrame(app, width=120, height=90, fg_color=color)
