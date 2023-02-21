@@ -1,7 +1,8 @@
 import customtkinter
 
 class Ui:
-    def __init__(self, app):
+    def __init__(self, app, getData):
+        self.getData = getData
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
         thirdColor = "#ECE8DD"
@@ -56,7 +57,7 @@ class Ui:
         inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw")
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor)
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=self.getData.select_file)
         inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
         outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw")
