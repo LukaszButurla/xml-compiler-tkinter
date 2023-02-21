@@ -16,7 +16,6 @@ class MainWindow:
         self.root.title("Konwerter XML")
         self.root.geometry("1280x720")
 
-
 if __name__ == "__main__":
     MainWindow()
         
