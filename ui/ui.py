@@ -117,7 +117,7 @@ class Ui:
         dataScrollFrame.rowconfigure(0, weight=1)
 
 #-----------------------------table with data-------------------------------
-        columns = ("index", "description", "amount", "price", "vat", "price_vat", "price_netto")
+        columns = ("index", "description", "amount", "price", "vat", "price_vat", "price_netto", "unit")
         self.dataTreeview = ttk.Treeview(dataScrollFrame, columns=columns, show="headings")
         self.dataTreeview.heading("index", text="Index")
         self.dataTreeview.heading("description", text="Opis")
@@ -126,6 +126,7 @@ class Ui:
         self.dataTreeview.heading("vat", text="Vat")
         self.dataTreeview.heading("price_vat", text="Wartość vat")
         self.dataTreeview.heading("price_netto", text="Wartość netto")
+        self.dataTreeview.heading("unit", text="Jednostka")
         self.dataTreeview.grid(row = 0, column = 0, sticky = "NSWE", padx = 10, pady = 10)
 
 #-----------------------------------style table------------------------------------
@@ -143,6 +144,7 @@ class Ui:
         self.dataTreeview.column("# 5", width=75, anchor="e")
         self.dataTreeview.column("# 6", width=100, anchor="e")
         self.dataTreeview.column("# 7", width=100, anchor="e")
+        self.dataTreeview.column("# 8", width=0, stretch=False)
 
 
     def open_select_file_window(self, label):

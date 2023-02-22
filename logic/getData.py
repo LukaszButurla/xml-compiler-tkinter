@@ -38,11 +38,10 @@ class GetData:
                         priceVat = "{:.2f}".format(float(subject[subject.find("<WartoscVAT>")+12:subject.find("</WartoscVAT>")]))
                         vat = subject[subject.find("<Procent>")+9:subject.find("</Procent>")][1:]
                         amount = "{:.0f}".format(float(subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]))
-                        group = "Grupa Główna"
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
                         
-                        values = [index, description, amount, price, vat, priceVat, priceNetto]
+                        values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
                         add_row_to_table(values)
 
                         lines = lines[subjectEnd+10:]
@@ -65,7 +64,6 @@ class GetData:
                         priceNetto = "{:.2f}".format(float(subject[subject.find("<WartoscNetto>")+14:subject.find("</WartoscNetto>")].replace(",", ".")))
                         vat = subject[subject.find("<Procent>")+9:subject.find("</Procent>")][:2]
                         amount = "{:.0f}".format(float(subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]))
-                        group = "Grupa Główna"
 
                         vatFloat = "0.{}".format(vat)
                         priceVat = "{:.2f}".format(float(priceNetto.replace(",", ".")) * float(vatFloat))
@@ -73,7 +71,7 @@ class GetData:
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
 
-                        values = [index, description, amount, price, vat, priceVat, priceNetto]
+                        values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
                         add_row_to_table(values)
                         lines = lines[subjectEnd+10:]
 
@@ -98,12 +96,11 @@ class GetData:
                         priceVat = "{:.2f}".format(float(subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")))
                         vat = subject[subject.find("<kodVAT>")+10:subject.find("</kodVAT>")]
                         amount = "{:.0f}".format(float(subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")].replace(",", ".")))
-                        group = "Grupa Główna"
 
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
 
-                        values = [index, description, amount, price, vat, priceVat, priceNetto]
+                        values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
                         add_row_to_table(values)
                         rows = rows[subjectEnd+7:]
 
