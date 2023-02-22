@@ -14,7 +14,7 @@ class MainWindow:
     def import_classes(self):
         self.getData = GetData()
         self.invoice = Invoice()
-        self.ui = Ui(self.root, self.getData, self.invoice.create_invoice   )
+        self.ui = Ui(self.root, self.getData, self.invoice.create_invoice)
 
     def create_window(self):
         self.root = customtkinter.CTk()

@@ -2,6 +2,7 @@ import customtkinter
 from tkinter import filedialog, ttk, END
 from functools import partial
 from ui.infoWindow import InfoWindow
+import os
 
 class Ui:
     def __init__(self, app, getData, create_invoice):
@@ -126,17 +127,17 @@ class Ui:
 
 
     def open_select_file_window(self, label):
-        selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
+        self.selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
 
-        if selectedFile == "":
+        if self.selectedFile == "":
             pass
-        elif selectedFile.endswith(".xml"):
+        elif self.selectedFile.endswith(".xml"):
             print("accept")
-            label.configure(text = "Ścieżka do pliku:\n{}".format(selectedFile))
+            label.configure(text = "Ścieżka do pliku:\n{}".format(self.selectedFile))
         else:
             self.infoWindow.open_window("Niepoprawny format pliku")
 
-        return selectedFile
+        return self.selectedFile
     
     def add_row_to_table(self, values):
         self.dataTreeview.insert('', END, values=values)
@@ -145,24 +146,30 @@ class Ui:
         self.dataTreeview.delete(*self.dataTreeview.get_children())
 
     def open_select_folder_window(self, label):
-        selectedFolder = filedialog.askdirectory()
+        self.selectedFolder = filedialog.askdirectory()
 
-        if selectedFolder == "":
+        if self.selectedFolder == "":
             pass
         else:
-            label.configure(text = "Ścieżka do katalogu:\n{}".format(selectedFolder))            
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFolder))            
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
         self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
 
     def create_files(self):
+
+        data = []
+
         for row in self.dataTreeview.get_children():
             values = self.dataTreeview.item(row).get("values")
             index = values[0]
             price = values[3]
             amount = values[2]
-            self.create_invoice(index, amount, price)
+
+            data.append([index, amount, price])
+            
+        self.create_invoice(self.selectedFolder, data)
 
 
 
