@@ -19,7 +19,7 @@ class Ui:
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
         self.create_invoice = create_invoice
-        self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor)
+        self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor, self.open_convert_page)
 #-------------------call methods--------------
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
@@ -174,6 +174,10 @@ class Ui:
     def open_info_page(self):
         self.convertPage.grid_forget()
         self.infoPage.infoFrame.grid(sticky = "NSWE")
+        
+    def open_convert_page(self):
+        self.infoPage.infoFrame.grid_forget()
+        self.convertPage.grid(sticky = "NSWE")
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
