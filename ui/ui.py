@@ -83,15 +83,15 @@ class Ui:
 
 #-----------------------------table with data-------------------------------
         columns = ("index", "description", "amount", "price", "vat", "price_vat", "price_netto")
-        dataTreeview = ttk.Treeview(dataScrollFrame, columns=columns, show="headings")
-        dataTreeview.heading("index", text="Index")
-        dataTreeview.heading("description", text="Opis")
-        dataTreeview.heading("amount", text="Ilość")
-        dataTreeview.heading("price", text="Cena jednostkowa")
-        dataTreeview.heading("vat", text="Vat")
-        dataTreeview.heading("price_vat", text="Wartość vat")
-        dataTreeview.heading("price_netto", text="Wartość netto")
-        dataTreeview.grid(row = 0, column = 0, sticky = "NSWE", padx = 10, pady = 10)
+        self.dataTreeview = ttk.Treeview(dataScrollFrame, columns=columns, show="headings")
+        self.dataTreeview.heading("index", text="Index")
+        self.dataTreeview.heading("description", text="Opis")
+        self.dataTreeview.heading("amount", text="Ilość")
+        self.dataTreeview.heading("price", text="Cena jednostkowa")
+        self.dataTreeview.heading("vat", text="Vat")
+        self.dataTreeview.heading("price_vat", text="Wartość vat")
+        self.dataTreeview.heading("price_netto", text="Wartość netto")
+        self.dataTreeview.grid(row = 0, column = 0, sticky = "NSWE", padx = 10, pady = 10)
 
 #-----------------------------------style table------------------------------------
         s = ttk.Style()
@@ -101,13 +101,13 @@ class Ui:
         s.configure("Treeview.Heading",
                    font=(None, 16))
         
-        dataTreeview.column("# 1", width=75)
-        dataTreeview.column("# 2", width=350)
-        dataTreeview.column("# 3", width=75)
-        dataTreeview.column("# 4", width=125)
-        dataTreeview.column("# 5", width=75)
-        dataTreeview.column("# 6", width=100)
-        dataTreeview.column("# 7", width=100)
+        self.dataTreeview.column("# 1", width=75)
+        self.dataTreeview.column("# 2", width=350)
+        self.dataTreeview.column("# 3", width=75)
+        self.dataTreeview.column("# 4", width=125)
+        self.dataTreeview.column("# 5", width=75)
+        self.dataTreeview.column("# 6", width=100)
+        self.dataTreeview.column("# 7", width=100)
 
     def open_select_file_window(self, label):
         selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
@@ -121,6 +121,10 @@ class Ui:
             self.infoWindow.open_window("Niepoprawny format pliku")
 
         return selectedFile
+    
+    def add_row_to_table(self, values):
+        print(values)
+        self.dataTreeview.insert('', END, values=values)
 
     def open_select_folder_window(self, label):
         selectedFolder = filedialog.askdirectory()
@@ -133,7 +137,7 @@ class Ui:
 
     def select_file(self, label):
         filePath = self.open_select_file_window(label)
-        self.getData.get_values(filePath, self.infoWindow)
+        self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table)
 
 
 
