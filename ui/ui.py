@@ -4,13 +4,14 @@ from functools import partial
 from ui.infoWindow import InfoWindow
 
 class Ui:
-    def __init__(self, app, getData):
+    def __init__(self, app, getData, create_invoice):
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
         thirdColor = "#ECE8DD"
         fourthColor = "#E1D7C6"
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
+        self.create_invoice = create_invoice
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
 
@@ -87,7 +88,7 @@ class Ui:
         infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor)
         infoButton.grid(row = 0, column = 0, padx = 15, pady = 15, sticky = "NSWE")
 
-        convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor)
+        convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor, command=self.create_files)
         convertButton.grid(row = 0, column = 0, sticky= "NSWE", padx = 30, pady = 15)
 
         dataScrollFrame = customtkinter.CTkFrame(tableFrame, fg_color=thirdColor)
@@ -154,6 +155,14 @@ class Ui:
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
         self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
+
+    def create_files(self):
+        for row in self.dataTreeview.get_children():
+            values = self.dataTreeview.item(row).get("values")
+            index = values[0]
+            price = values[3]
+            amount = values[2]
+            self.create_invoice(index, amount, price)
 
 
 
