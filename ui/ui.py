@@ -2,6 +2,7 @@ import customtkinter
 from tkinter import filedialog, ttk, END
 from functools import partial
 from ui.infoWindow import InfoWindow
+from ui.infoPage import infoPage
 import os
 
 class Ui:
@@ -13,6 +14,7 @@ class Ui:
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
         self.create_invoice = create_invoice
+        self.infoPage = infoPage()
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
 
@@ -86,7 +88,7 @@ class Ui:
         outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_folder_window, outputInfoLabel))
         outputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor)
+        infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor, command=self.open_info_page)
         infoButton.grid(row = 0, column = 0, padx = 15, pady = 15, sticky = "NSWE")
 
         convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor, command=self.create_files)
@@ -151,7 +153,10 @@ class Ui:
         if self.selectedFolder == "":
             pass
         else:
-            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFolder))            
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFolder))     
+
+    def open_info_page(self):
+        self.infoPage.open_page()       
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
