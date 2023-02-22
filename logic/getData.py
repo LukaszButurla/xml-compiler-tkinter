@@ -1,12 +1,13 @@
-from tkinter import filedialog
+from tkinter import filedialog, END
 import os
 
 class GetData:
     def __init__(self):
         pass
 
-    def get_values(self, filePath, window):
-        version = self.check_version(filePath)
+    def get_values(self, filePath, window, add_row_to_table, clear_table):
+        version = self.check_version(filePath)        
+        clear_table()
 
         with open(filePath, "r", encoding="utf-8") as fOpen:
 
@@ -36,10 +37,11 @@ class GetData:
                         vat = subject[subject.find("<Procent>")+9:subject.find("</Procent>")][1:]
                         amount = subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]
                         group = "Grupa Główna"
+                        
+                        values = [index, description, amount, price, vat, priceVat, priceNetto]
+                        add_row_to_table(values)
 
                         lines = lines[subjectEnd+10:]
-
-                        print(index, description, unit, price, priceNetto, priceVat, vat, amount)
 
                 case 2:
                     window.open_window("Winkhaus Polska Beteiligungs Sp. z o.o sp.k.\nNip: 6970011183") 
@@ -64,10 +66,9 @@ class GetData:
                         vatFloat = "0.{}".format(vat)
                         priceVat = "{:.2f}".format(float(priceNetto.replace(",", ".")) * float(vatFloat))
 
+                        values = [index, description, amount, price, vat, priceVat, priceNetto]
+                        add_row_to_table(values)
                         lines = lines[subjectEnd+10:]
-
-                        print(index, description, unit, price, priceNetto, priceVat, vat, amount)
-
 
                 case 3:
                     window.open_window("3") 
@@ -92,9 +93,10 @@ class GetData:
                         amount = subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")]  
                         group = "Grupa Główna"
 
+                        values = [index, description, amount, price, vat, priceVat, priceNetto]
+                        add_row_to_table(values)
                         rows = rows[subjectEnd+7:]
 
-                        print(index, description, unit, price, priceNetto, priceVat, vat, amount)
 
     def check_version(self, filePath):
         with open(filePath, "r", encoding="utf-8") as fOpen:
