@@ -2,48 +2,66 @@ import customtkinter
 from tkinter import filedialog, ttk, END
 from functools import partial
 from ui.infoWindow import InfoWindow
+from ui.infoPage import infoPage
 import os
 
 class Ui:
     def __init__(self, app, getData, create_invoice):
+#--------------------colors--------------------
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
         thirdColor = "#ECE8DD"
         fourthColor = "#E1D7C6"
+#--------------------create main frame------------------
+        self.mainFrame = customtkinter.CTkFrame(app)
+        self.mainFrame.grid(sticky = "NSWE")
+#-------------------class instance-----------------
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
         self.create_invoice = create_invoice
+        self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor, self.open_convert_page)
+#-------------------call methods--------------
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
 
 
     def create_widgets(self, app, color, secondColor, thirdColor, fourthColor):
+        
+        self.convertPage = customtkinter.CTkFrame(self.mainFrame)
+        self.convertPage.grid(sticky = "NSWE")
+        
 #--------------create grid frames-------------------------------------
-        inputFrame = customtkinter.CTkFrame(app, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
+        inputFrame = customtkinter.CTkFrame(self.convertPage, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
         inputFrame.grid(row = 0, column = 0, rowspan = 2, columnspan = 3, sticky = "NSWE")
 
-        outputFrame = customtkinter.CTkFrame(app, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
+        outputFrame = customtkinter.CTkFrame(self.convertPage, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
         outputFrame.grid(row = 0, column = 3, rowspan = 2, columnspan = 3, sticky = "NSWE")
 
-        tableFrame = customtkinter.CTkFrame(app, width=1280, height=504, fg_color=thirdColor)
+        tableFrame = customtkinter.CTkFrame(self.convertPage, width=1280, height=504, fg_color=thirdColor)
         tableFrame.grid(row = 2, column = 0, rowspan = 14, columnspan = 6, sticky = "NSWE")
 
-        summaryFrame = customtkinter.CTkFrame(app, width=1280, height=36, fg_color=thirdColor)
+        summaryFrame = customtkinter.CTkFrame(self.convertPage, width=1280, height=36, fg_color=thirdColor)
         summaryFrame.grid(row = 16, column = 0, columnspan = 6, sticky = "NSWE")
 
-        infoFrame = customtkinter.CTkFrame(app, width=120, height=72, fg_color=color)
+        infoFrame = customtkinter.CTkFrame(self.convertPage, width=120, height=72, fg_color=color)
         infoFrame.grid(row = 17, column = 0, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
-        buttonFrame = customtkinter.CTkFrame(app, width=240, height=72, fg_color=color)
+        buttonFrame = customtkinter.CTkFrame(self.convertPage, width=240, height=72, fg_color=color)
         buttonFrame.grid(row = 17, column = 2, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
-        emptyFrame = customtkinter.CTkFrame(app, width=120, height=72, fg_color=color)
+        emptyFrame = customtkinter.CTkFrame(self.convertPage, width=120, height=72, fg_color=color)
         emptyFrame.grid(row = 17, column = 4, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
 #---------------configure grid----------------------------------------------
-        app.columnconfigure((0,1,2,3,4,5), weight=1)
-        app.rowconfigure((0, 9, 8), weight = 2, minsize = 72)
-        app.rowconfigure((1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), weight = 3)
+        app.rowconfigure(0, weight=1)
+        app.columnconfigure(0, weight=1)
+        
+        self.mainFrame.columnconfigure(0, weight=1)
+        self.mainFrame.rowconfigure(0, weight=1)
+
+        self.convertPage.columnconfigure((0,1,2,3,4,5), weight=1)
+        self.convertPage.rowconfigure((0, 9, 8), weight = 2, minsize = 72)
+        self.convertPage.rowconfigure((1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), weight = 3)
 
         inputFrame.columnconfigure((0, 1, 2, 3), weight=1)
         inputFrame.rowconfigure(0, weight=1)
@@ -86,7 +104,7 @@ class Ui:
         outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_folder_window, outputInfoLabel))
         outputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor)
+        infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor, command=self.open_info_page)
         infoButton.grid(row = 0, column = 0, padx = 15, pady = 15, sticky = "NSWE")
 
         convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor, command=self.create_files)
@@ -151,7 +169,15 @@ class Ui:
         if self.selectedFolder == "":
             pass
         else:
-            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFolder))            
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFolder))     
+
+    def open_info_page(self):
+        self.convertPage.grid_forget()
+        self.infoPage.infoFrame.grid(sticky = "NSWE")
+        
+    def open_convert_page(self):
+        self.infoPage.infoFrame.grid_forget()
+        self.convertPage.grid(sticky = "NSWE")
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
