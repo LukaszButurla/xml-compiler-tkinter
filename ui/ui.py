@@ -13,6 +13,8 @@ class Ui:
         self.getData = getData
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
+
+
     def create_widgets(self, app, color, secondColor, thirdColor, fourthColor):
 #--------------create grid frames-------------------------------------
         inputFrame = customtkinter.CTkFrame(app, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
@@ -63,11 +65,10 @@ class Ui:
 #---------------add widgets----------------------------------------------
         inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw", justify = "left")
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
-
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.select_file, inputInfoLabel))
-        inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
-
         outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw", justify = "left")
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.select_file, inputInfoLabel))
+
+        inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
         outputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
         outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_folder_window, outputInfoLabel))
@@ -106,11 +107,11 @@ class Ui:
         
         self.dataTreeview.column("# 1", width=75)
         self.dataTreeview.column("# 2", width=350)
-        self.dataTreeview.column("# 3", width=75)
-        self.dataTreeview.column("# 4", width=125)
-        self.dataTreeview.column("# 5", width=75)
-        self.dataTreeview.column("# 6", width=100)
-        self.dataTreeview.column("# 7", width=100)
+        self.dataTreeview.column("# 3", width=75, anchor="e")
+        self.dataTreeview.column("# 4", width=125, anchor="e")
+        self.dataTreeview.column("# 5", width=75, anchor="e")
+        self.dataTreeview.column("# 6", width=100, anchor="e")
+        self.dataTreeview.column("# 7", width=100, anchor="e")
 
 #------------------------summary widgets----------------------------
         summarySubjectLabel = customtkinter.CTkLabel(summaryFrame, text = "Liczba przedmiotów:\n232", font = ("Arial", 20), anchor="nw", justify = "right")
@@ -147,12 +148,12 @@ class Ui:
         if selectedFolder == "":
             pass
         else:
-            label.configure(text = "Ścieżka do katalogu:\n{}".format(selectedFolder))
-            
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(selectedFolder))            
 
     def select_file(self, label):
         filePath = self.open_select_file_window(label)
         self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table)
+
 
 
 
