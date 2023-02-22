@@ -165,7 +165,7 @@ class PriceList:
                 index = d[0]
                 description = d[1]
                 group = "Grupa główna"
-                unit = "szt"
+                unit = d[7]
                 vat = d[4]
                 price = d[6]
                 
