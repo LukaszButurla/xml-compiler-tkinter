@@ -5,7 +5,7 @@ class GetData:
     def __init__(self):
         pass
 
-    def get_values(self, filePath):
+    def get_values(self, filePath, window):
         version = self.check_version(filePath)
 
         with open(filePath, "r", encoding="utf-8") as fOpen:
@@ -14,7 +14,7 @@ class GetData:
 
             match version:
                 case 1:
-                    print(1)                    
+                    window.open_window("PONZIO POLSKA Sp. z o.o\nNip: 7741008197")                   
                     amountOfSubjects = lines[lines.find("<LiczbaPozycji>")+15:lines.find("</LiczbaPozycji>")]
                     nip = "7741008197"
 
@@ -42,7 +42,7 @@ class GetData:
                         print(index, description, unit, price, priceNetto, priceVat, vat, amount)
 
                 case 2:
-                    print(2)
+                    window.open_window("Winkhaus Polska Beteiligungs Sp. z o.o sp.k.\nNip: 6970011183") 
                     amountOfSubjects = lines[lines.find("<LiczbaPozycji>")+15:lines.find("</LiczbaPozycji>")]
                     nip = "6970011183"
 
@@ -70,7 +70,7 @@ class GetData:
 
 
                 case 3:
-                    print(3)
+                    window.open_window("3") 
 
                     nip = "firma_3"
                     amountOfSubjects = lines.count("<wiersz lp=")

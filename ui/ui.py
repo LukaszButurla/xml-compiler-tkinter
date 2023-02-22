@@ -104,7 +104,7 @@ class Ui:
 
     def select_file(self, label):
         filePath = self.open_select_file_window(label)
-        self.getData.get_values(filePath)
+        self.getData.get_values(filePath, self.infoWindow)
 
 
 
