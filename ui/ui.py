@@ -19,7 +19,7 @@ class Ui:
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
         self.create_invoice = create_invoice
-        self.infoPage = infoPage(self.mainFrame)
+        self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor)
 #-------------------call methods--------------
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
