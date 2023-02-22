@@ -5,8 +5,9 @@ class GetData:
     def __init__(self):
         pass
 
-    def get_values(self, filePath, window, add_row_to_table):
+    def get_values(self, filePath, window, add_row_to_table, clear_table):
         version = self.check_version(filePath)        
+        clear_table()
 
         with open(filePath, "r", encoding="utf-8") as fOpen:
 

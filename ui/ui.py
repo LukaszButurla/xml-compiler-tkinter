@@ -123,8 +123,10 @@ class Ui:
         return selectedFile
     
     def add_row_to_table(self, values):
-        print(values)
         self.dataTreeview.insert('', END, values=values)
+
+    def clear_table(self):
+        self.dataTreeview.delete(*self.dataTreeview.get_children())
 
     def open_select_folder_window(self, label):
         selectedFolder = filedialog.askdirectory()
@@ -137,7 +139,7 @@ class Ui:
 
     def select_file(self, label):
         filePath = self.open_select_file_window(label)
-        self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table)
+        self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table)
 
 
 
