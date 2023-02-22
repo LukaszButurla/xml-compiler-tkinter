@@ -61,12 +61,22 @@ class Ui:
         summaryFrame.rowconfigure(0, weight=1)
         summaryFrame.columnconfigure((0,1, 2), weight=1)
 
+#------------------------summary widgets----------------------------
+        summarySubjectLabel = customtkinter.CTkLabel(summaryFrame, text = "Liczba przedmiotów:\n", font = ("Arial", 20), anchor="nw", justify = "right")
+        summarySubjectLabel.grid(row = 0, column = 0, sticky = "NSWE", padx = 15)
+
+        summaryVatLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość vat:\n", font = ("Arial", 20), anchor="nw", justify = "right")
+        summaryVatLabel.grid(row = 0, column = 1, sticky = "NSWE", padx = 15)
+
+        summaryNettoLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość Netto:\n", font = ("Arial", 20), anchor="nw", justify = "right")
+        summaryNettoLabel.grid(row = 0, column = 2, sticky = "NSWE", padx = 15)
+
 
 #---------------add widgets----------------------------------------------
         inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw", justify = "left")
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
         outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw", justify = "left")
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.select_file, inputInfoLabel))
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.select_file, inputInfoLabel, summaryVatLabel, summaryNettoLabel, summarySubjectLabel))
 
         inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
         outputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
@@ -113,15 +123,6 @@ class Ui:
         self.dataTreeview.column("# 6", width=100, anchor="e")
         self.dataTreeview.column("# 7", width=100, anchor="e")
 
-#------------------------summary widgets----------------------------
-        summarySubjectLabel = customtkinter.CTkLabel(summaryFrame, text = "Liczba przedmiotów:\n232", font = ("Arial", 20), anchor="nw", justify = "right")
-        summarySubjectLabel.grid(row = 0, column = 0, sticky = "NSWE", padx = 15)
-
-        summaryVatLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość vat:\n12852.52", font = ("Arial", 20), anchor="nw", justify = "right")
-        summaryVatLabel.grid(row = 0, column = 1, sticky = "NSWE", padx = 15)
-
-        summaryNettoLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość Netto:\n12345.76", font = ("Arial", 20), anchor="nw", justify = "right")
-        summaryNettoLabel.grid(row = 0, column = 2, sticky = "NSWE", padx = 15)
 
     def open_select_file_window(self, label):
         selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
@@ -150,9 +151,9 @@ class Ui:
         else:
             label.configure(text = "Ścieżka do katalogu:\n{}".format(selectedFolder))            
 
-    def select_file(self, label):
+    def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
-        self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table)
+        self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
 
 
 
