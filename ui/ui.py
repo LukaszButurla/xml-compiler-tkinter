@@ -194,6 +194,7 @@ class Ui:
             data.append(values)
             
         self.create_invoice(self.selectedFolder, data, self.nip)
+        self.create_price_list(self.selectedFolder, data, self.nip)
 
 
 
