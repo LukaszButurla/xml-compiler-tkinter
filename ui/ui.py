@@ -191,14 +191,9 @@ class Ui:
 
         for row in self.dataTreeview.get_children():
             values = self.dataTreeview.item(row).get("values")
-            index = values[0]
-            price = values[3]
-            amount = values[2]
-
-            data.append([index, amount, price])
+            data.append(values)
             
         self.create_invoice(self.selectedFolder, data, self.nip)
-        self.create_price_list(self.selectedFolder, data, self.nip)
 
 
 
