@@ -14,4 +14,5 @@ class Invoice:
             fSave.write("sep=;\n")
 
             for d in data:
-                writer.writerow(d)
+                values = [d[0], d[2], d[3]]
+                writer.writerow(values)
