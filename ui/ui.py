@@ -16,30 +16,30 @@ class Ui:
     def create_widgets(self, app, color, secondColor, thirdColor, fourthColor):
 #--------------create grid frames-------------------------------------
         inputFrame = customtkinter.CTkFrame(app, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
-        inputFrame.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE")
+        inputFrame.grid(row = 0, column = 0, rowspan = 2, columnspan = 3, sticky = "NSWE")
 
         outputFrame = customtkinter.CTkFrame(app, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
-        outputFrame.grid(row = 0, column = 3, columnspan = 3, sticky = "NSWE")
+        outputFrame.grid(row = 0, column = 3, rowspan = 2, columnspan = 3, sticky = "NSWE")
 
         tableFrame = customtkinter.CTkFrame(app, width=1280, height=504, fg_color=thirdColor)
-        tableFrame.grid(row = 1, column = 0, columnspan = 6, rowspan = 7, sticky = "NSWE")
+        tableFrame.grid(row = 2, column = 0, rowspan = 14, columnspan = 6, sticky = "NSWE")
 
-        summaryFrame = customtkinter.CTkFrame(app, width=1280, height=72, fg_color=thirdColor, border_color=fourthColor, border_width=4)
-        summaryFrame.grid(row = 8, column = 0, columnspan = 6, sticky = "NSWE")
+        summaryFrame = customtkinter.CTkFrame(app, width=1280, height=36, fg_color=thirdColor)
+        summaryFrame.grid(row = 16, column = 0, columnspan = 6, sticky = "NSWE")
 
         infoFrame = customtkinter.CTkFrame(app, width=120, height=72, fg_color=color)
-        infoFrame.grid(row = 9, column = 0, columnspan = 2, sticky = "NSWE")
+        infoFrame.grid(row = 17, column = 0, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
         buttonFrame = customtkinter.CTkFrame(app, width=240, height=72, fg_color=color)
-        buttonFrame.grid(row = 9, column = 2, columnspan = 2, sticky = "NSWE")
+        buttonFrame.grid(row = 17, column = 2, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
         emptyFrame = customtkinter.CTkFrame(app, width=120, height=72, fg_color=color)
-        emptyFrame.grid(row = 9, column = 4, columnspan = 2, sticky = "NSWE")
+        emptyFrame.grid(row = 17, column = 4, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
 #---------------configure grid----------------------------------------------
         app.columnconfigure((0,1,2,3,4,5), weight=1)
-        app.rowconfigure((0, 9), weight = 2, minsize = 72)
-        app.rowconfigure((1,2,3,4,5,6, 7, 8), weight = 3)
+        app.rowconfigure((0, 9, 8), weight = 2, minsize = 72)
+        app.rowconfigure((1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), weight = 3)
 
         inputFrame.columnconfigure((0, 1, 2, 3), weight=1)
         inputFrame.rowconfigure(0, weight=1)
@@ -55,6 +55,9 @@ class Ui:
 
         tableFrame.columnconfigure(0, weight=1)
         tableFrame.rowconfigure(0, weight=1)
+
+        summaryFrame.rowconfigure(0, weight=1)
+        summaryFrame.columnconfigure((0,1, 2), weight=1)
 
 
 #---------------add widgets----------------------------------------------
@@ -108,6 +111,16 @@ class Ui:
         self.dataTreeview.column("# 5", width=75)
         self.dataTreeview.column("# 6", width=100)
         self.dataTreeview.column("# 7", width=100)
+
+#------------------------summary widgets----------------------------
+        summarySubjectLabel = customtkinter.CTkLabel(summaryFrame, text = "Liczba przedmiotów:\n232", font = ("Arial", 20), anchor="nw", justify = "right")
+        summarySubjectLabel.grid(row = 0, column = 0, sticky = "NSWE", padx = 15)
+
+        summaryVatLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość vat:\n12852.52", font = ("Arial", 20), anchor="nw", justify = "right")
+        summaryVatLabel.grid(row = 0, column = 1, sticky = "NSWE", padx = 15)
+
+        summaryNettoLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość Netto:\n12345.76", font = ("Arial", 20), anchor="nw", justify = "right")
+        summaryNettoLabel.grid(row = 0, column = 2, sticky = "NSWE", padx = 15)
 
     def open_select_file_window(self, label):
         selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
