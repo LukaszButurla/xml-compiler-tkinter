@@ -2,15 +2,17 @@ import customtkinter
 from tkinter import filedialog, ttk, END
 from functools import partial
 from ui.infoWindow import InfoWindow
+import os
 
 class Ui:
-    def __init__(self, app, getData):
+    def __init__(self, app, getData, create_invoice):
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
         thirdColor = "#ECE8DD"
         fourthColor = "#E1D7C6"
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
+        self.create_invoice = create_invoice
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
 
 
@@ -87,7 +89,7 @@ class Ui:
         infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor)
         infoButton.grid(row = 0, column = 0, padx = 15, pady = 15, sticky = "NSWE")
 
-        convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor)
+        convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor, command=self.create_files)
         convertButton.grid(row = 0, column = 0, sticky= "NSWE", padx = 30, pady = 15)
 
         dataScrollFrame = customtkinter.CTkFrame(tableFrame, fg_color=thirdColor)
@@ -125,17 +127,17 @@ class Ui:
 
 
     def open_select_file_window(self, label):
-        selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
+        self.selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
 
-        if selectedFile == "":
+        if self.selectedFile == "":
             pass
-        elif selectedFile.endswith(".xml"):
+        elif self.selectedFile.endswith(".xml"):
             print("accept")
-            label.configure(text = "Ścieżka do pliku:\n{}".format(selectedFile))
+            label.configure(text = "Ścieżka do pliku:\n{}".format(self.selectedFile))
         else:
             self.infoWindow.open_window("Niepoprawny format pliku")
 
-        return selectedFile
+        return self.selectedFile
     
     def add_row_to_table(self, values):
         self.dataTreeview.insert('', END, values=values)
@@ -144,16 +146,31 @@ class Ui:
         self.dataTreeview.delete(*self.dataTreeview.get_children())
 
     def open_select_folder_window(self, label):
-        selectedFolder = filedialog.askdirectory()
+        self.selectedFolder = filedialog.askdirectory()
 
-        if selectedFolder == "":
+        if self.selectedFolder == "":
             pass
         else:
-            label.configure(text = "Ścieżka do katalogu:\n{}".format(selectedFolder))            
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFolder))            
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
-        self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
+        self.nip = self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
+        print(self.nip)
+
+    def create_files(self):
+
+        data = []
+
+        for row in self.dataTreeview.get_children():
+            values = self.dataTreeview.item(row).get("values")
+            index = values[0]
+            price = values[3]
+            amount = values[2]
+
+            data.append([index, amount, price])
+            
+        self.create_invoice(self.selectedFolder, data, self.nip)
 
 
 
