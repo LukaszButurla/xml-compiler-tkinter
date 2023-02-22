@@ -183,7 +183,11 @@ class Ui:
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
-        self.nip = self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
+        self.nip, self.detectedFile = self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
+        
+        if not self.detectedFile:
+            self.selectedFile = ""
+            label.configure(text = "Ścieżka do katalogu:\n{}".format(self.selectedFile))  
 
     def create_files(self):
         
