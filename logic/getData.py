@@ -110,7 +110,7 @@ class GetData:
         summarySubjects.configure(text = "Liczba przedmiotów:\n{}".format(amountOfSubjects))
         summaryVat.configure(text = "Podsumowanie wartość vat:\n{:.2f}".format(priceVatAll))
         summaryNetto.configure(text = "Podsumowanie wartość Netto:\n{:.2f}".format(priceNettoAll))
-
+        return nip
 
     def check_version(self, filePath):
         with open(filePath, "r", encoding="utf-8") as fOpen:
