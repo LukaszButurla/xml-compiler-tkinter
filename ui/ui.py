@@ -6,7 +6,7 @@ from ui.infoPage import infoPage
 import os
 
 class Ui:
-    def __init__(self, app, getData, create_invoice):
+    def __init__(self, app, getData, create_invoice, create_price_list):
 #--------------------colors--------------------
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
@@ -19,6 +19,7 @@ class Ui:
         self.infoWindow = InfoWindow(app, mainColor, secondColor)
         self.getData = getData
         self.create_invoice = create_invoice
+        self.create_price_list = create_price_list
         self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor, self.open_convert_page)
 #-------------------call methods--------------
         self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
@@ -197,6 +198,7 @@ class Ui:
             data.append([index, amount, price])
             
         self.create_invoice(self.selectedFolder, data, self.nip)
+        self.create_price_list(self.selectedFolder, data, self.nip)
 
 
 
