@@ -23,6 +23,9 @@ class infoPage:
         companiesLabel = customtkinter.CTkLabel(companiesFrame, text = companies, font=("Arial", 25), text_color=textColor)
         companiesLabel.grid(row = 0, column = 0, sticky = "NSWE")
         
+        versionLabel = customtkinter.CTkLabel(self.infoFrame, text = "Wersja 1.1", font=("Arial", 12), text_color=textColor)
+        versionLabel.grid(row = 4, column = 2, sticky = "NSWE")
+        
         exitButton = customtkinter.CTkButton(self.infoFrame, text = "Wyjdź", command=self.openConvertPage)
         exitButton.grid(row = 4, column = 1, sticky = "NSWE", padx = 50, pady = 50)
         
