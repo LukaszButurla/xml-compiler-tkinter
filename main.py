@@ -3,6 +3,7 @@ import customtkinter
 from ui.ui import Ui
 from logic.getData import GetData
 from logic.invoice import Invoice
+from logic.priceList import PriceList
 
 
 class MainWindow:
@@ -14,7 +15,8 @@ class MainWindow:
     def import_classes(self):
         self.getData = GetData()
         self.invoice = Invoice()
-        self.ui = Ui(self.root, self.getData, self.invoice.create_invoice)
+        self.priceList = PriceList()
+        self.ui = Ui(self.root, self.getData, self.invoice.create_invoice, self.priceList.create_invoice)
 
     def create_window(self):
         self.root = customtkinter.CTk()
