@@ -1,11 +1,11 @@
 import customtkinter
 
 class infoPage:
-    def __init__(self, frame, mainColor, secondColor, thirdColor, fourthColor, openConvertPage):
+    def __init__(self, frame, mainColor, secondColor, thirdColor, fourthColor, textColor, openConvertPage):
         self.openConvertPage = openConvertPage
-        self.create_page(frame, mainColor, secondColor, thirdColor, fourthColor)
+        self.create_page(frame, mainColor, secondColor, thirdColor, fourthColor, textColor)
 
-    def create_page(self, frame, mainColor, secondColor, thirdColor, fourthColor):
+    def create_page(self, frame, mainColor, secondColor, thirdColor, fourthColor, textColor):
         
         self.infoFrame = customtkinter.CTkFrame(frame, fg_color=mainColor)
         self.infoFrame.columnconfigure((0, 1, 2), weight=1)
@@ -20,7 +20,7 @@ class infoPage:
         companiesFrame.rowconfigure(0, weight=1)
         companiesFrame.columnconfigure(0, weight=1)
                 
-        companiesLabel = customtkinter.CTkLabel(companiesFrame, text = companies, font=("Arial", 25))
+        companiesLabel = customtkinter.CTkLabel(companiesFrame, text = companies, font=("Arial", 25), text_color=textColor)
         companiesLabel.grid(row = 0, column = 0, sticky = "NSWE")
         
         exitButton = customtkinter.CTkButton(self.infoFrame, text = "Wyjdź", command=self.openConvertPage)

@@ -12,23 +12,24 @@ class Ui:
         secondColor = "#579BB1"
         thirdColor = "#ECE8DD"
         fourthColor = "#E1D7C6"
+        textColor = "black"
 #--------------------create main frame------------------
-        self.mainFrame = customtkinter.CTkFrame(app)
+        self.mainFrame = customtkinter.CTkFrame(app, fg_color=mainColor)
         self.mainFrame.grid(sticky = "NSWE")
 #-------------------class instance-----------------
-        self.infoWindow = InfoWindow(app, mainColor, secondColor)
+        self.infoWindow = InfoWindow(app, mainColor, secondColor, textColor)
         self.getData = getData
         self.create_invoice = create_invoice
         self.create_price_list = create_price_list
-        self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor, self.open_convert_page)
+        self.infoPage = infoPage(self.mainFrame, mainColor, secondColor, thirdColor, fourthColor, textColor, self.open_convert_page)
 #-------------------call methods--------------
-        self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor)
+        self.create_widgets(app, mainColor, secondColor, thirdColor, fourthColor, textColor)
 
 
 
-    def create_widgets(self, app, color, secondColor, thirdColor, fourthColor):
+    def create_widgets(self, app, color, secondColor, thirdColor, fourthColor, textColor):
         
-        self.convertPage = customtkinter.CTkFrame(self.mainFrame)
+        self.convertPage = customtkinter.CTkFrame(self.mainFrame, fg_color=color)
         self.convertPage.grid(sticky = "NSWE")
         
 #--------------create grid frames-------------------------------------
@@ -83,20 +84,21 @@ class Ui:
         summaryFrame.columnconfigure((0,1, 2), weight=1)
 
 #------------------------summary widgets----------------------------
-        summarySubjectLabel = customtkinter.CTkLabel(summaryFrame, text = "Liczba przedmiotów:\n", font = ("Arial", 20), anchor="nw", justify = "right")
+        summarySubjectLabel = customtkinter.CTkLabel(summaryFrame, text = "Liczba przedmiotów:\n", font = ("Arial", 20), anchor="nw", justify = "right", text_color=textColor)
         summarySubjectLabel.grid(row = 0, column = 0, sticky = "NSWE", padx = 15)
 
-        summaryVatLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość vat:\n", font = ("Arial", 20), anchor="nw", justify = "right")
+        summaryVatLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość vat:\n", font = ("Arial", 20), anchor="nw", justify = "right", text_color=textColor)
         summaryVatLabel.grid(row = 0, column = 1, sticky = "NSWE", padx = 15)
 
-        summaryNettoLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość Netto:\n", font = ("Arial", 20), anchor="nw", justify = "right")
+        summaryNettoLabel = customtkinter.CTkLabel(summaryFrame, text = "Podsumowanie wartość Netto:\n", font = ("Arial", 20), anchor="nw", justify = "right", text_color=textColor)
         summaryNettoLabel.grid(row = 0, column = 2, sticky = "NSWE", padx = 15)
 
 
 #---------------add widgets----------------------------------------------
-        inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw", justify = "left")
+        inputInfoLabel = customtkinter.CTkLabel(inputFrame, text = "Ścieżka do pliku:", font = ("Arial", 20), anchor="nw", justify = "left", text_color=textColor)
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
-        outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw", justify = "left")
+        
+        outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw", justify = "left", text_color=textColor)
         inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.select_file, inputInfoLabel, summaryVatLabel, summaryNettoLabel, summarySubjectLabel))
 
         inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
