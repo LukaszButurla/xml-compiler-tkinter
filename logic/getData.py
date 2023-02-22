@@ -65,12 +65,36 @@ class GetData:
                         priceVat = "{:.2f}".format(float(priceNetto.replace(",", ".")) * float(vatFloat))
 
                         lines = lines[subjectEnd+10:]
-                        
+
                         print(index, description, unit, price, priceNetto, priceVat, vat, amount)
 
 
                 case 3:
                     print(3)
+
+                    nip = "firma_3"
+                    amountOfSubjects = lines.count("<wiersz lp=")
+                    rows = lines[lines.find("<wiersze>"):lines.find("</wiersze>")]
+
+                    for subject in range(int(amountOfSubjects)):
+
+                        subjectStart = rows.find("<wiersz")
+                        subjectEnd = rows.find("</wiersz>")
+                        subject = rows[subjectStart:subjectEnd]
+
+                        description = subject[subject.find("<opisProduktu>")+14:subject.find("</opisProduktu>")]
+                        index = subject[subject.find("<indeks>")+8:subject.find("</indeks>")]
+                        unit = subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]                          
+                        price = subject[subject.find("<cenaJednPrzedRabatem>")+22:subject.find("</cenaJednPrzedRabatem>")]
+                        priceNetto = subject[subject.find("<kwotaNetto>")+12:subject.find("</kwotaNetto>")].replace(",", ".")
+                        priceVat = subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")
+                        vat = subject[subject.find("<kodVAT>")+10:subject.find("</kodVAT>")]
+                        amount = subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")]  
+                        group = "Grupa Główna"
+
+                        rows = rows[subjectEnd+7:]
+
+                        print(index, description, unit, price, priceNetto, priceVat, vat, amount)
 
     def check_version(self, filePath):
         with open(filePath, "r", encoding="utf-8") as fOpen:
