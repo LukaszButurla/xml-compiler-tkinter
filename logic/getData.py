@@ -116,7 +116,6 @@ class GetData:
             if "<NIP>" in lines:
                 seller = lines[lines.find('<StronaUmowy kto="Sprzedajacy">'):lines.find("</StronaUmowy>")]
                 nip = seller[seller.find("<NIP>")+5:seller.find("</NIP>")].replace("-", "")
-                print(nip)
 
                 if nip == "7741008197":
                     version = 1

@@ -153,7 +153,6 @@ class Ui:
         if self.selectedFile == "":
             pass
         elif self.selectedFile.endswith(".xml"):
-            print("accept")
             label.configure(text = "Ścieżka do pliku:\n{}".format(self.selectedFile))
         else:
             self.infoWindow.open_window("Niepoprawny format pliku")
@@ -185,7 +184,6 @@ class Ui:
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
         self.nip = self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
-        print(self.nip)
 
     def create_files(self):
 
