@@ -1,5 +1,5 @@
 import customtkinter
-from tkinter import filedialog
+from tkinter import filedialog, ttk, END
 from functools import partial
 from ui.infoWindow import InfoWindow
 
@@ -76,9 +76,38 @@ class Ui:
         convertButton = customtkinter.CTkButton(buttonFrame, text = "Potwierdź", font = ("Arial", 19), fg_color=secondColor)
         convertButton.grid(row = 0, column = 0, sticky= "NSWE", padx = 30, pady = 15)
 
-        dataScrollFrame = customtkinter.CTkScrollableFrame(tableFrame, fg_color=thirdColor)
-        dataScrollFrame.grid(sticky = "NSWE")
+        dataScrollFrame = customtkinter.CTkFrame(tableFrame, fg_color=thirdColor)
+        dataScrollFrame.grid(sticky = "NSWE")    
+        dataScrollFrame.columnconfigure(0, weight=1)
+        dataScrollFrame.rowconfigure(0, weight=1)
 
+#-----------------------------table with data-------------------------------
+        columns = ("index", "description", "amount", "price", "vat", "price_vat", "price_netto")
+        dataTreeview = ttk.Treeview(dataScrollFrame, columns=columns, show="headings")
+        dataTreeview.heading("index", text="Index")
+        dataTreeview.heading("description", text="Opis")
+        dataTreeview.heading("amount", text="Ilość")
+        dataTreeview.heading("price", text="Cena jednostkowa")
+        dataTreeview.heading("vat", text="Vat")
+        dataTreeview.heading("price_vat", text="Wartość vat")
+        dataTreeview.heading("price_netto", text="Wartość netto")
+        dataTreeview.grid(row = 0, column = 0, sticky = "NSWE", padx = 10, pady = 10)
+
+#-----------------------------------style table------------------------------------
+        s = ttk.Style()
+        s.configure("Treeview",
+                    font = ("Arial", 15),
+                    rowheight = 20)
+        s.configure("Treeview.Heading",
+                   font=(None, 16))
+        
+        dataTreeview.column("# 1", width=75)
+        dataTreeview.column("# 2", width=350)
+        dataTreeview.column("# 3", width=75)
+        dataTreeview.column("# 4", width=125)
+        dataTreeview.column("# 5", width=75)
+        dataTreeview.column("# 6", width=100)
+        dataTreeview.column("# 7", width=100)
 
     def open_select_file_window(self, label):
         selectedFile = filedialog.askopenfilename(filetypes=[("XML", ".xml")])
