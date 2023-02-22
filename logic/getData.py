@@ -14,8 +14,15 @@ class GetData:
             lines = fOpen.read()
             priceVatAll = 0.0
             priceNettoAll = 0.0
+            amountOfSubjects = 0
+            nip = 0
+            detected = True
 
             match version:
+                case 0:
+                    window.open_window("Nie rozpoznano firmy")  
+                    detected = False
+                    
                 case 1:
                     window.open_window("PONZIO POLSKA Sp. z o.o\nNip: 7741008197")                   
                     amountOfSubjects = lines[lines.find("<LiczbaPozycji>")+15:lines.find("</LiczbaPozycji>")]
@@ -103,11 +110,12 @@ class GetData:
                         values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
                         add_row_to_table(values)
                         rows = rows[subjectEnd+7:]
+                
 
         summarySubjects.configure(text = "Liczba przedmiotów:\n{}".format(amountOfSubjects))
         summaryVat.configure(text = "Podsumowanie wartość vat:\n{:.2f}".format(priceVatAll))
         summaryNetto.configure(text = "Podsumowanie wartość Netto:\n{:.2f}".format(priceNettoAll))
-        return nip
+        return nip, detected
 
     def check_version(self, filePath):
         with open(filePath, "r", encoding="utf-8") as fOpen:
@@ -124,6 +132,9 @@ class GetData:
 
             elif "<wiersz lp=" in lines and "<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" in lines:
                 version = 3
+                
+            else:
+                version = 0
 
         return version
    
