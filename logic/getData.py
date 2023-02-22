@@ -76,7 +76,7 @@ class GetData:
                         lines = lines[subjectEnd+10:]
 
                 case 3:
-                    window.open_window("3") 
+                    window.open_window("Aliplast") 
 
                     nip = "firma_3"
                     amountOfSubjects = lines.count("<wiersz lp=")
