@@ -13,6 +13,10 @@ class InfoWindow:
         window = Toplevel(self.app, background = self.mainColor)
         window.geometry("400x200")
         window.title("Informacja")
+        x = self.app.winfo_x()
+        y = self.app.winfo_y()
+        window.geometry("+%d+%d" %(x+300, y+300))
+        window.wm_transient(self.app)
         window.minsize(400, 200)
         self.create_widgets(window, text)
 
