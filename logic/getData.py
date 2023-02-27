@@ -85,7 +85,7 @@ class GetData:
                 case 3:
                     window.open_window("Aliplast") 
 
-                    nip = "firma_3"
+                    nip = "Aliplast"
                     amountOfSubjects = lines.count("<wiersz lp=")
                     rows = lines[lines.find("<wiersze>"):lines.find("</wiersze>")]
 
