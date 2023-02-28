@@ -167,7 +167,7 @@ class PriceList:
                 group = "Grupa główna"
                 unit = d[7]
                 vat = d[4]
-                price = d[6]
+                price = d[3]
                 
                 fSave.write(self.form.format(code = index, code2 = index, name = description, group = group, unit = unit, vat_sell = vat, vat_buy = vat, price_brutto = price))
                 
