@@ -98,7 +98,7 @@ class GetData:
                         description = subject[subject.find("<opisProduktu>")+14:subject.find("</opisProduktu>")]
                         index = subject[subject.find("<indeks>")+8:subject.find("</indeks>")]
                         unit = subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]                          
-                        price = "{:.2f}".format(float(subject[subject.find("<cenaJednPrzedRabatem>")+22:subject.find("</cenaJednPrzedRabatem>")].replace(",", ".")))
+                        price = subject[subject.find("<cenaPoRabacie>")+15:subject.find("</cenaPoRabacie>")].replace(",", ".")
                         priceNetto = "{:.2f}".format(float(subject[subject.find("<kwotaNetto>")+12:subject.find("</kwotaNetto>")].replace(",", ".")))
                         priceVat = "{:.2f}".format(float(subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")))
                         vat = subject[subject.find("<kodVAT>")+10:subject.find("</kodVAT>")]
