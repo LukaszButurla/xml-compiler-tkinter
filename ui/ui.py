@@ -34,10 +34,10 @@ class Ui:
         
 #--------------create grid frames-------------------------------------
         inputFrame = customtkinter.CTkFrame(self.convertPage, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
-        inputFrame.grid(row = 0, column = 0, rowspan = 2, columnspan = 3, sticky = "NSWE")
+        inputFrame.grid(row = 0, column = 0, columnspan = 6, sticky = "NSWE")
 
         outputFrame = customtkinter.CTkFrame(self.convertPage, width=640, height=72, fg_color=color, border_color=fourthColor, border_width=4)
-        outputFrame.grid(row = 0, column = 3, rowspan = 2, columnspan = 3, sticky = "NSWE")
+        outputFrame.grid(row = 1, column = 0, columnspan = 6, sticky = "NSWE")
 
         tableFrame = customtkinter.CTkFrame(self.convertPage, width=1280, height=504, fg_color=thirdColor)
         tableFrame.grid(row = 2, column = 0, rowspan = 14, columnspan = 6, sticky = "NSWE")
@@ -55,6 +55,7 @@ class Ui:
         emptyFrame.grid(row = 17, column = 4, rowspan = 2, columnspan = 2, sticky = "NSWE")
 
 #---------------configure grid----------------------------------------------
+        # app.rowconfigure((0, 1), weight=0)
         app.rowconfigure(0, weight=1)
         app.columnconfigure(0, weight=1)
         
@@ -65,11 +66,11 @@ class Ui:
         self.convertPage.rowconfigure((0, 9, 8), weight = 2, minsize = 72)
         self.convertPage.rowconfigure((1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17), weight = 3)
 
-        inputFrame.columnconfigure((0, 1, 2, 3), weight=1)
-        inputFrame.rowconfigure(0, weight=1)
+        inputFrame.columnconfigure((0, 1, 2, 3, 4, 5), weight=1)
+        inputFrame.rowconfigure(0, weight=0)
 
         outputFrame.columnconfigure((0, 1, 2, 3), weight=1)
-        outputFrame.rowconfigure(0, weight=1)
+        outputFrame.rowconfigure(0, weight=0)
 
         infoFrame.columnconfigure((0, 1, 2, 3), weight=1)
         infoFrame.rowconfigure(0, weight=1)
@@ -99,13 +100,13 @@ class Ui:
         inputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
         
         outputInfoLabel = customtkinter.CTkLabel(outputFrame, text = "Ścieżka do Folderu:", font = ("Arial", 20), anchor="nw", justify = "left", text_color=textColor)
-        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.select_file, inputInfoLabel, summaryVatLabel, summaryNettoLabel, summarySubjectLabel))
-
-        inputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
         outputInfoLabel.grid(row = 0, column = 0, columnspan = 3, sticky = "NSWE", padx = 15, pady = 15)
 
-        outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), fg_color=secondColor, command=partial(self.open_select_folder_window, outputInfoLabel))
-        outputButton.grid(row = 0, column = 3, sticky = "NSWE", padx = 15, pady = 15)
+        inputButton = customtkinter.CTkButton(inputFrame, text = "Wybierz", font = ("Arial", 19), width=100, height=50, fg_color=secondColor, command=partial(self.select_file, inputInfoLabel, summaryVatLabel, summaryNettoLabel, summarySubjectLabel))
+        inputButton.grid(row = 0, column = 6, padx = 15, pady = 15)
+
+        outputButton = customtkinter.CTkButton(outputFrame, text = "Wybierz", font = ("Arial", 19), width=100, height=50, fg_color=secondColor, command=partial(self.open_select_folder_window, outputInfoLabel))
+        outputButton.grid(row = 0, column = 6, padx = 15, pady = 15)
 
         infoButton = customtkinter.CTkButton(infoFrame, text = "O programie", font = ("Arial", 19), fg_color=secondColor, command=self.open_info_page)
         infoButton.grid(row = 0, column = 0, padx = 15, pady = 15, sticky = "NSWE")
