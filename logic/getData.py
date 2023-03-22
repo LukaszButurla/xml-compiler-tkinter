@@ -6,12 +6,13 @@ class GetData:
         pass
 
     def get_values(self, filePath, window, add_row_to_table, clear_table, summaryVat, summaryNetto, summarySubjects):
-        version = self.check_version(filePath)        
+        version, name = self.check_version(filePath)        
         clear_table()
 
         with open(filePath, "r", encoding="utf-8") as fOpen:
 
-            lines = fOpen.read()
+            linesStart = fOpen.read()
+            lines = linesStart
             priceVatAll = 0.0
             priceNettoAll = 0.0
             amountOfSubjects = 0
@@ -40,11 +41,13 @@ class GetData:
                         description = "{} {}".format(description1, descripton2)
                         index = subject[subject.find("<Indeks>")+8:subject.find("</Indeks>")]
                         unit = subject[subject.find("<Jednostka>")+11:subject.find("</Jednostka>")]
-                        price = "{:.2f}".format(float(subject[subject.find("<Cena>")+6:subject.find("</Cena>")].replace(",", ".")))
-                        priceNetto = "{:.2f}".format(float(subject[subject.find("<WartoscNetto>")+14:subject.find("</WartoscNetto>")]))
-                        priceVat = "{:.2f}".format(float(subject[subject.find("<WartoscVAT>")+12:subject.find("</WartoscVAT>")]))
+                        price = subject[subject.find("<Cena>")+6:subject.find("</Cena>")].replace(",", ".")
+                        priceNetto = subject[subject.find("<WartoscNetto>")+14:subject.find("</WartoscNetto>")]
+                        priceVat = subject[subject.find("<WartoscVAT>")+12:subject.find("</WartoscVAT>")]
                         vat = subject[subject.find("<Procent>")+9:subject.find("</Procent>")][1:]
-                        amount = "{:.0f}".format(float(subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]))
+                        amount = subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]
+                        number = (linesStart[linesStart.find("<NumerFaktury>")+14:linesStart.find("</NumerFaktury>")]).replace("/", "")
+                        
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
                         
@@ -67,10 +70,11 @@ class GetData:
                         description = subject[subject.find("<Opis>")+6:subject.find("</Opis>")]
                         index = subject[subject.find("<Indeks>")+8:subject.find("</Indeks>")]
                         unit = subject[subject.find("<Jednostka>")+11:subject.find("</Jednostka>")]
-                        price = "{:.2f}".format(float(subject[subject.find("<CenaPLN>")+9:subject.find("</CenaPLN>")].replace(",", ".")))
-                        priceNetto = "{:.2f}".format(float(subject[subject.find("<WartoscNetto>")+14:subject.find("</WartoscNetto>")].replace(",", ".")))
+                        price = subject[subject.find("<CenaPLN>")+9:subject.find("</CenaPLN>")].replace(",", ".")
+                        priceNetto = subject[subject.find("<WartoscNetto>")+14:subject.find("</WartoscNetto>")].replace(",", ".")
                         vat = subject[subject.find("<Procent>")+9:subject.find("</Procent>")][:2]
-                        amount = "{:.0f}".format(float(subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]))
+                        amount = subject[subject.find("<Ilosc>")+7:subject.find("</Ilosc>")]
+                        number = (linesStart[linesStart.find("<NumerFaktury>")+14:linesStart.find("</NumerFaktury>")]).replace("/", "").replace("/", "")
 
                         vatFloat = "0.{}".format(vat)
                         priceVat = "{:.2f}".format(float(priceNetto.replace(",", ".")) * float(vatFloat))
@@ -85,7 +89,7 @@ class GetData:
                 case 3:
                     window.open_window("Aliplast") 
 
-                    nip = "Aliplast"
+                    nip = "Aliplast"    
                     amountOfSubjects = lines.count("<wiersz lp=")
                     rows = lines[lines.find("<wiersze>"):lines.find("</wiersze>")]
 
@@ -99,10 +103,11 @@ class GetData:
                         index = subject[subject.find("<indeks>")+8:subject.find("</indeks>")]
                         unit = subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]                          
                         price = subject[subject.find("<cenaPoRabacie>")+15:subject.find("</cenaPoRabacie>")].replace(",", ".")
-                        priceNetto = "{:.2f}".format(float(subject[subject.find("<kwotaNetto>")+12:subject.find("</kwotaNetto>")].replace(",", ".")))
-                        priceVat = "{:.2f}".format(float(subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")))
+                        priceNetto = subject[subject.find("<kwotaNetto>")+12:subject.find("</kwotaNetto>")].replace(",", ".")
+                        priceVat = subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")
                         vat = subject[subject.find("<kodVAT>")+10:subject.find("</kodVAT>")]
-                        amount = "{:.0f}".format(float(subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")].replace(",", ".")))
+                        amount = subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")].replace(",", ".")
+                        number = (linesStart[linesStart.find("<numerDokumentu>")+16:linesStart.find("</numerDokumentu>")]).replace("/", "")
 
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
@@ -115,7 +120,7 @@ class GetData:
         summarySubjects.configure(text = "Liczba przedmiotów:\n{}".format(amountOfSubjects))
         summaryVat.configure(text = "Podsumowanie wartość vat:\n{:.2f}".format(priceVatAll))
         summaryNetto.configure(text = "Podsumowanie wartość Netto:\n{:.2f}".format(priceNettoAll))
-        return nip, detected
+        return nip, detected, name, number
 
     def check_version(self, filePath):
         with open(filePath, "r", encoding="utf-8") as fOpen:
@@ -127,13 +132,16 @@ class GetData:
 
                 if nip == "7741008197":
                     version = 1
+                    name = "PONZIO POLSKA"
                 elif nip == "6970011183":
                     version = 2
+                    name = "Winkhaus Polska"
 
             elif "<wiersz lp=" in lines and "<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" in lines:
                 version = 3
+                name = "Aliplast"
                 
             else:
                 version = 0
 
-        return version
+        return version, name
