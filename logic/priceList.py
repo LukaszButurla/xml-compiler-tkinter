@@ -152,9 +152,9 @@ class PriceList:
 <ZAMIENNIKI/>
 </TOWAR>"""
     
-    def create_invoice(self, savePath, data, nip):
+    def create_invoice(self, savePath, data, nip, name, number):
         
-        fileName = "kartoteka_{}.xml".format(nip)
+        fileName = "kartoteka_{}_{}.xml".format(name, number)
         savePath = os.path.join(savePath, fileName)
         
         with open(savePath, "w", encoding="utf-8") as fSave:
