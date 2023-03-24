@@ -107,7 +107,10 @@ class GetData:
                         priceVat = subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")
                         vat = subject[subject.find("<kodVAT>")+10:subject.find("</kodVAT>")]
                         amount = subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")].replace(",", ".")
+                        length = subject[subject.find("<dlugosc>")+9:subject.find("</dlugosc>")]
                         number = (linesStart[linesStart.find("<numerDokumentu>")+16:linesStart.find("</numerDokumentu>")]).replace("/", "")
+                        
+                        amount = float(amount.replace(",", ".")) * float(length.replace(",", "."))
 
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
