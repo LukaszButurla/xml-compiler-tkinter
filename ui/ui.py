@@ -7,6 +7,7 @@ import os
 
 class Ui:
     def __init__(self, app, getData, create_invoice, create_price_list):
+        self.selectedFile = ""
 #--------------------colors--------------------
         mainColor = "#F8F4EA"
         secondColor = "#579BB1"
@@ -169,7 +170,9 @@ class Ui:
         self.dataTreeview.delete(*self.dataTreeview.get_children())
 
     def open_select_folder_window(self, label):
-        self.selectedFolder = filedialog.askdirectory()
+        dir = os.path.dirname(self.selectedFile)            
+        self.selectedFolder = filedialog.askdirectory(initialdir=dir)
+            
 
         if self.selectedFolder == "":
             pass
