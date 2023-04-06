@@ -100,23 +100,25 @@ class GetData:
                         subject = rows[subjectStart:subjectEnd]
 
                         description = subject[subject.find("<opisProduktu>")+14:subject.find("</opisProduktu>")]
-                        index = subject[subject.find("<indeks>")+8:subject.find("</indeks>")]
-                        unit = subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]                          
+                        index = (subject[subject.find("<indeks>")+8:subject.find("</indeks>")])
+                        unit = ((subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]).replace(",", "-")).replace(".", "-")
                         price = subject[subject.find("<cenaPoRabacie>")+15:subject.find("</cenaPoRabacie>")].replace(",", ".")
                         priceNetto = subject[subject.find("<kwotaNetto>")+12:subject.find("</kwotaNetto>")].replace(",", ".")
                         priceVat = subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")
                         vat = subject[subject.find("<kodVAT>")+10:subject.find("</kodVAT>")]
                         amount = subject[subject.find("<ilosc>")+7:subject.find("</ilosc>")].replace(",", ".")
-                        length = subject[subject.find("<dlugosc>")+9:subject.find("</dlugosc>")]
+                        length = subject[subject.find("<dlugosc>")+9:subject.find("</dlugosc>")].replace(",", ".")
                         number = (linesStart[linesStart.find("<numerDokumentu>")+16:linesStart.find("</numerDokumentu>")]).replace("/", "")
                         
-                        amount = float(amount.replace(",", ".")) * float(length.replace(",", "."))
+                        if float(length) != 0:
+                            amount = float(amount) * float(length)
 
                         priceVatAll += float(priceVat)
                         priceNettoAll += float(priceNetto)
 
                         values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
                         add_row_to_table(values)
+                            
                         rows = rows[subjectEnd+7:]
                 
 
