@@ -100,8 +100,8 @@ class GetData:
                         subject = rows[subjectStart:subjectEnd]
 
                         description = subject[subject.find("<opisProduktu>")+14:subject.find("</opisProduktu>")]
-                        index = subject[subject.find("<indeks>")+8:subject.find("</indeks>")]
-                        unit = subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]                          
+                        index = (subject[subject.find("<indeks>")+8:subject.find("</indeks>")])
+                        unit = ((subject[subject.find("<jednostka>")+11:subject.find("</jednostka>")]).replace(",", "-")).replace(".", "-")
                         price = subject[subject.find("<cenaPoRabacie>")+15:subject.find("</cenaPoRabacie>")].replace(",", ".")
                         priceNetto = subject[subject.find("<kwotaNetto>")+12:subject.find("</kwotaNetto>")].replace(",", ".")
                         priceVat = subject[subject.find("<kwotaVAT>")+10:subject.find("</kwotaVAT>")].replace(",", ".")
@@ -118,6 +118,7 @@ class GetData:
 
                         values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
                         add_row_to_table(values)
+                            
                         rows = rows[subjectEnd+7:]
                 
 
