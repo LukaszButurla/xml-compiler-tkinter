@@ -120,6 +120,48 @@ class GetData:
                         add_row_to_table(values)
                             
                         rows = rows[subjectEnd+7:]
+                    
+                case 4:
+                    window.open_window("DOMART")
+                    amountOfVendors = lines.count("<Vendor>")
+                    print(amountOfVendors)
+                    amountOfAllObjects = 0
+
+                    vendorLines = lines[lines.find("<Vendors>"):lines.find("</Vendors>")]
+                    
+                    for vendor in range(amountOfVendors):
+
+                        vendorStart = vendorLines.find("<Vendor>")
+                        vendorEnd = vendorLines.find("</Vendor>")
+                        vendor = vendorLines[vendorStart:vendorEnd]
+
+                        rows = vendor[vendor.find("<Materials>"):vendor.find("</Materials>")]
+                        amountOfSubjects = vendor.count("<Material>")
+                        print(amountOfSubjects)
+                        amountOfAllObjects += amountOfSubjects
+
+                        for subject in range(amountOfSubjects):
+
+                            subjectStart = rows.find("<Material>")
+                            subjectEnd = rows.find("</Material>")
+                            subject = rows[subjectStart:subjectEnd]
+
+                            description = subject[subject.find("<Desc>")+6:subject.find("</Desc>")]
+                            index = (subject[subject.find("<NrGmSys>")+9:subject.find("</NrGmSys>")])
+                            unit = ((subject[subject.find("<JM>")+4:subject.find("</JM>")]).replace(",", "-")).replace(".", "-")
+                            price = 1
+                            priceNetto = 1
+                            priceVat = 1
+                            vat = "23"
+                            amount = subject[subject.find("<UsedCount>")+11:subject.find("</UsedCount>")].replace(",", ".")
+                            number = "123456789"
+
+                            values = [index, description, amount, price, vat, priceVat, priceNetto, unit]
+                            add_row_to_table(values)
+                            rows = rows[subjectEnd+11:]
+
+                        vendorLines = vendorLines[vendorEnd+9:]
+                    amountOfSubjects = amountOfAllObjects
                 
 
         summarySubjects.configure(text = "Liczba przedmiotów:\n{}".format(amountOfSubjects))
@@ -145,8 +187,11 @@ class GetData:
             elif "<wiersz lp=" in lines and "<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" in lines:
                 version = 3
                 name = "Aliplast"
+            
+            if "<Vendors>" in lines:
+                 version = 4
+                 name = "DOMART"
                 
-            else:
-                version = 0
+            
 
         return version, name
