@@ -122,7 +122,7 @@ class GetData:
                         rows = rows[subjectEnd+7:]
                     
                 case 4:
-                    window.open_window("DOMART")
+                    window.open_window("Zaktim wyceny")
                     amountOfVendors = lines.count("<Vendor>")
                     print(amountOfVendors)
                     amountOfAllObjects = 0

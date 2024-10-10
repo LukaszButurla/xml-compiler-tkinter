@@ -156,7 +156,7 @@ class Ui:
 
         if self.selectedFile == "":
             pass
-        elif self.selectedFile.endswith(".xml"):
+        elif self.selectedFile.endswith(".xml") or self.selectedFile.endswith(".XML"):
             label.configure(text = "Ścieżka do pliku:\n{}".format(self.selectedFile))
         else:
             self.infoWindow.open_window("Niepoprawny format pliku")
