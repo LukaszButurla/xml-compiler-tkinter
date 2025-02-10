@@ -6,7 +6,10 @@ class GetData:
         pass
 
     def get_values(self, filePath, window, add_row_to_table, clear_table, summaryVat, summaryNetto, summarySubjects):
-        version, name = self.check_version(filePath)        
+        version, name = self.check_version(filePath)   
+        fileAll = os.path.basename(filePath)
+        file = os.path.splitext(fileAll) 
+        fileName = file[0]
         clear_table()
 
         with open(filePath, "r", encoding="utf-8") as fOpen:
@@ -163,11 +166,12 @@ class GetData:
                         vendorLines = vendorLines[vendorEnd+9:]
                     amountOfSubjects = amountOfAllObjects
                 
+                
 
         summarySubjects.configure(text = "Liczba przedmiotów:\n{}".format(amountOfSubjects))
         summaryVat.configure(text = "Podsumowanie wartość vat:\n{:.2f}".format(priceVatAll))
         summaryNetto.configure(text = "Podsumowanie wartość Netto:\n{:.2f}".format(priceNettoAll))
-        return nip, detected, name, number
+        return nip, detected, name, number, fileName
 
     def check_version(self, filePath):
         with open(filePath, "r", encoding="utf-8") as fOpen:
@@ -184,7 +188,7 @@ class GetData:
                     version = 2
                     name = "Winkhaus Polska"
 
-            elif "<wiersz lp=" in lines and "<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" in lines:
+            elif "<wiersz lp=" in lines and ("<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" or "<nazwaNabywcy>ZAKTIM SPÓŁKA Z OGRANICZONĄ</nazwaNabywcy>") in lines:
                 version = 3
                 name = "Aliplast"
             

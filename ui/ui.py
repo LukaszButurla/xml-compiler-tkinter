@@ -189,7 +189,7 @@ class Ui:
 
     def select_file(self, label, summaryVat, summaryNetto, summarySubjects):
         filePath = self.open_select_file_window(label)
-        self.nip, self.detectedFile, self.name, self.number = self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
+        self.nip, self.detectedFile, self.name, self.number, self.fileName = self.getData.get_values(filePath, self.infoWindow, self.add_row_to_table, self.clear_table, summaryVat, summaryNetto, summarySubjects)
         
         if not self.detectedFile:
             self.selectedFile = ""
@@ -205,8 +205,8 @@ class Ui:
                 values = self.dataTreeview.item(row).get("values")
                 data.append(values)
                 
-            self.create_invoice(self.selectedFolder, data, self.nip, self.name, self.number)
-            self.create_price_list(self.selectedFolder, data, self.nip, self.name, self.number)
+            self.create_invoice(self.selectedFolder, data, self.nip, self.name, self.number, self.fileName)
+            self.create_price_list(self.selectedFolder, data, self.nip, self.name, self.number, self.fileName)
             self.infoWindow.open_window("Konwersja przebiegła pomyślnie")
             
         except Exception as e:
