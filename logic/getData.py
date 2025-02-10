@@ -188,7 +188,7 @@ class GetData:
                     version = 2
                     name = "Winkhaus Polska"
 
-            elif "<wiersz lp=" in lines and ("<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" or "<nazwaNabywcy>ZAKTIM SPÓŁKA Z OGRANICZONĄ</nazwaNabywcy>") in lines:
+            elif "<wiersz lp=" in lines and ("<nazwaNabywcy>ZAKTIM F.P.U.H.</nazwaNabywcy>" in lines or "<nazwaNabywcy>ZAKTIM SPÓŁKA Z OGRANICZONĄ</nazwaNabywcy>" in lines):
                 version = 3
                 name = "Aliplast"
             
